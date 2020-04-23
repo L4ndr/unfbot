@@ -16,20 +16,24 @@ def get_followers(screen_name):
     return ids
 
 for idbf in get_followers(api.me().screen_name):
-    oldf = open(f"./followers/{idbf}.txt", 'r').read().strip("\n").split("\n")
+    try:
+        oldf = open(f"./followers/{idbf}.txt", 'r').read().strip("\n").split("\n")
+    except:
+        pass
     newf = open(f"./followers/{idbf}.txt", '+w')
     for idff in get_followers(api.get_user(idbf).screen_name):
         newf.write(f"{idff}\n")
     newf.close()
     newf = open(f"./followers/{idbf}.txt", 'r').read()
     unfs = list()
-    for follower in oldf:
-        if follower not in newf:
-            try:
-                unfs.append(api.get_user(int(follower)).screen_name)
-            except:
-                unfs.append("ou bugou ou a conta não existe, algum dos dois")
-    print(unfs)
-    text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir: {}".format(len(unfs), "\n".join(unfs)))
-    api.send_direct_message(recipient_id=int(idbf), text=text)
-
+    try:
+        for follower in oldf:
+            if follower not in newf:
+                try:
+                    unfs.append(api.get_user(int(follower)).screen_name)
+                except:
+                    unfs.append("ou bugou ou a conta não existe, algum dos dois")
+        text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir: {}".format(len(unfs), "\n".join(unfs)))
+        api.send_direct_message(recipient_id=int(idbf), text=text)
+    except:
+        pass
