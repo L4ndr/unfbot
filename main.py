@@ -25,7 +25,10 @@ for idbf in get_followers(api.me().screen_name):
     unfs = list()
     for follower in oldf:
         if follower not in newf:
-            unfs.append(api.get_user(int(follower)).screen_name)
+            try:
+                unfs.append(api.get_user(int(follower)).screen_name)
+            except:
+                unfs.append("ou bugou ou a conta não existe, algum dos dois")
     print(unfs)
     text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir: {}".format(len(unfs), "\n".join(unfs)))
     api.send_direct_message(recipient_id=int(idbf), text=text)
