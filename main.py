@@ -10,10 +10,14 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 def get_followers(screen_name):
-    ids = list()
-    for page in tweepy.Cursor(api.followers_ids, screen_name=screen_name).pages():
-        ids.extend(page)
-    return ids
+    if (api.get_user(screen_name).protected) == False:
+        ids = list()
+        for page in tweepy.Cursor(api.followers_ids, screen_name=screen_name).pages():
+            ids.extend(page)
+        return ids
+    else:
+        print(f"impossivel pegar os tweets de @{screen_name}, conta privada")
+        return []
 
 for idbf in get_followers(api.me().screen_name):
     try:
