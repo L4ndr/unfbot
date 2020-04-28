@@ -16,19 +16,19 @@ def get_followers(screen_name):
             ids.extend(page)
         return ids
     else:
-        print(f"impossivel pegar os tweets de @{screen_name}, conta privada")
+        print("impossivel pegar os tweets de @{}, conta privada".format(screen_name))
         return []
 
 for idbf in get_followers(api.me().screen_name):
     try:
-        oldf = open(f"./followers/{idbf}.txt", 'r').read().strip("\n").split("\n")
+        oldf = open("./followers/{}.txt".format(idbf), 'r').read().strip("\n").split("\n")
     except:
         pass
-    newf = open(f"./followers/{idbf}.txt", '+w')
+    newf = open("./followers/{}.txt".format(idbf), '+w')
     for idff in get_followers(api.get_user(idbf).screen_name):
-        newf.write(f"{idff}\n")
+        newf.write("{}\n".format(idff))
     newf.close()
-    newf = open(f"./followers/{idbf}.txt", 'r').read()
+    newf = open("./followers/{}.txt".format(idbf), 'r').read()
     unfs = list()
     try:
         for follower in oldf:
