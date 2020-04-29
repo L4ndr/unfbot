@@ -14,10 +14,11 @@ def get_followers(screen_name):
         ids = list()
         for page in tweepy.Cursor(api.followers_ids, screen_name=screen_name).pages():
             ids.extend(page)
+            sleep(60)
         return ids
     else:
-        print("impossivel pegar os tweets de @{}, conta privada".format(screen_name))
-        return []
+        print("impossivel pegar os seguidores de @{}, conta privada".format(screen_name))
+        return ["Sua conta está privada, considere despriva-la."]
 
 for idbf in get_followers(api.me().screen_name):
     try:
