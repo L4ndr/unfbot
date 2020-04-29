@@ -36,7 +36,7 @@ for idbf in get_followers(api.me().screen_name):
                 try:
                     unfs.append(api.get_user(int(follower)).screen_name)
                 except:
-                    unfs.append("ou bugou ou a conta não existe, algum dos dois")
+                    unfs.append("[conta suspensa]")
         text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir:\n{}".format(len(unfs), "\n".join(unfs)))
         api.send_direct_message(recipient_id=int(idbf), text=text)
     except:
