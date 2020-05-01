@@ -1,5 +1,6 @@
 import tweepy
 from time import sleep
+from random import shuffle
 
 consumer_key = "kA7btSPyTtXD1WeLKkpTjgbRl"
 api_secret = "J7UVenQKCu6Z1Eay11Jn4V9uRLPDCTF6OI6PByIAcwXuVYW9lK"
@@ -20,7 +21,10 @@ def get_followers(screen_name):
         print("impossivel pegar os seguidores de @{}, conta privada".format(screen_name))
         return ["Sua conta está privada, considere despriva-la."]
 
-for idbf in get_followers(api.me().screen_name):
+idsbf = get_followers(api.me().screen_name)
+shuffle(idsbf)
+
+for idbf in idsbf:
     try:
         oldf = open("./followers/{}.txt".format(idbf), 'r').read().strip("\n").split("\n")
     except:
@@ -35,7 +39,7 @@ for idbf in get_followers(api.me().screen_name):
         for follower in oldf:
             if follower not in newf:
                 try:
-                    unfs.append(api.get_user(int(follower)).screen_name)
+                    unfs.append("@{}".format(api.get_user(int(follower)).screen_name))
                 except:
                     unfs.append("[conta suspensa]")
         text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir:\n{}".format(len(unfs), "\n".join(unfs)))
