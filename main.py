@@ -1,13 +1,12 @@
 import tweepy
 from time import sleep
 from random import shuffle
+import credentials
 
-consumer_key = "kA7btSPyTtXD1WeLKkpTjgbRl"
-api_secret = "J7UVenQKCu6Z1Eay11Jn4V9uRLPDCTF6OI6PByIAcwXuVYW9lK"
-access_token = "1252349748964667392-jKSDT6RSx6uUy7cKrHFGkehex1nB65"
-access_token_secret = "WXe3Ot5fDd71vxitZ6gclRyJMRDHUQV70DxPq17r1YIoV"
-auth = tweepy.OAuthHandler(consumer_key, api_secret)
-auth.set_access_token(access_token, access_token_secret)
+keys, tokens = credentials.api()
+
+auth = tweepy.OAuthHandler(keys[0], keys[1])
+auth.set_access_token(tokens[0], tokens[1])
 api = tweepy.API(auth)
 
 def get_followers(screen_name):
@@ -21,7 +20,7 @@ def get_followers(screen_name):
         print("impossivel pegar os seguidores de @{}, conta privada".format(screen_name))
         return ["Sua conta está privada, considere despriva-la."]
 
-idsbf = get_followers(api.me().screen_name)
+idsbf = get_followers(api.me().screen_name) #idsbf = ids dos seguidores do bot
 shuffle(idsbf)
 
 for idbf in idsbf:
@@ -30,7 +29,7 @@ for idbf in idsbf:
     except:
         pass
     newf = open("./followers/{}.txt".format(idbf), '+w')
-    for idff in get_followers(api.get_user(idbf).screen_name):
+    for idff in get_followers(api.get_user(idbf).screen_name): #idff = id do seguidor do seguidor
         newf.write("{}\n".format(idff))
     newf.close()
     newf = open("./followers/{}.txt".format(idbf), 'r').read()
