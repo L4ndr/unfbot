@@ -1,9 +1,11 @@
 import tweepy
 from time import sleep
 from random import shuffle
-import credentials
+from os import environ as env
+import traceback
 
-keys, tokens = credentials.api()
+keys = [env.get("UNFBOT_TWITTER_API_KEY"), env.get("UNFBOT_TWITTER_API_KEY_SECRET")]
+tokens = [env.get("UNFBOT_TWITTER_API_TOKEN"), env.get("UNFBOT_TWITTER_API_TOKEN_SECRET")]
 
 auth = tweepy.OAuthHandler(keys[0], keys[1])
 auth.set_access_token(tokens[0], tokens[1])
@@ -43,5 +45,7 @@ for idbf in idsbf:
                     unfs.append("[conta suspensa]")
         text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir:\n{}".format(len(unfs), "\n".join(unfs)))
         api.send_direct_message(recipient_id=int(idbf), text=text)
-    except:
+    except Exception as err:
+        print(err)
+        print(traceback.format_exc())
         pass
