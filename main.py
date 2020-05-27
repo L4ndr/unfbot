@@ -13,6 +13,7 @@ api = tweepy.API(auth)
 
 def get_followers(screen_name):
     if (api.get_user(screen_name).protected) == False:
+        print("pegando os tweets de {}...".format(screen_name))
         ids = list()
         for page in tweepy.Cursor(api.followers_ids, screen_name=screen_name).pages():
             ids.extend(page)
@@ -43,9 +44,15 @@ for idbf in idsbf:
                     unfs.append("@{}".format(api.get_user(int(follower)).screen_name))
                 except:
                     unfs.append("[conta suspensa]")
+        supscont = 0
+        for unfind in range(len(unfs)):
+            if unfind == "[conta suspensa]":
+                unfs.pop(unfind)
+                supscont += 1
+        if "[conta suspensa]" in unfs:
+            unfs.append("[{} contas suspensas]".format(supscont))
         text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir:\n{}".format(len(unfs), "\n".join(unfs)))
-        api.send_direct_message(recipient_id=int(idbf), text=text)
+        api.send_direct_message(recipient_id=int(idbf), text=text) if len(text)<=10000 else (api.send_direct_message(recipient_id=int(idbf), text="ow na moral vc ta quebrando o bot, não é culpa minha vc ter tanto seguidor assimkk"))
     except Exception as err:
         print(err)
         print(traceback.format_exc())
-        pass
