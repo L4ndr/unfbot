@@ -13,7 +13,7 @@ api = tweepy.API(auth)
 
 def get_followers(screen_name):
     if (api.get_user(screen_name).protected) == False:
-        print("pegando os tweets de {}...".format(screen_name))
+        print("pegando os seguidores de {}...".format(screen_name))
         ids = list()
         for page in tweepy.Cursor(api.followers_ids, screen_name=screen_name).pages():
             ids.extend(page)
