@@ -50,7 +50,8 @@ for idbf in idsbf:
         if (api.get_user(idbf).protected):
             text = "Sua conta está privada, considere despriva-la."
         else:
-            text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir:\n{}".format((len(unfs)+suspcont-1), "\n".join(unfs)))
+            unfcount = (len(unfs)+suspcont-1) if (suspcount>0) else (len(unfs))
+            text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir:\n{}".format(unfcount, "\n".join(unfs)))
         api.send_direct_message(recipient_id=int(idbf), text=text) if len(text)<=10000 else (api.send_direct_message(recipient_id=int(idbf), text="ow na moral vc ta quebrando o bot, não é culpa minha vc ter tanto seguidor assimkk"))
     except Exception as err:
         print(err)
