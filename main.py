@@ -47,7 +47,7 @@ for idbf in idsbf:
                     suspcont += 1
         if suspcont>0:
             unfs.append("[{} contas suspensas]".format(suspcont))
-        if (api.get_user().protected):
+        if (api.get_user(idbf).protected):
             text = "Sua conta está privada, considere despriva-la."
         else:
             text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir:\n{}".format(len(unfs), "\n".join(unfs)))
