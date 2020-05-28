@@ -38,19 +38,19 @@ for idbf in idsbf:
     newf = open("./followers/{}.txt".format(idbf), 'r').read()
     unfs = list()
     try:
-        suspcont = 0
+        suspcount = 0
         for follower in oldf:
             if follower not in newf:
                 try:
                     unfs.append("@{}".format(api.get_user(int(follower)).screen_name))
                 except:
-                    suspcont += 1
-        if suspcont>0:
-            unfs.append("[{} contas suspensas]".format(suspcont))
+                    suspcount += 1
+        if suspcount>0:
+            unfs.append("[{} contas suspensas]".format(suspcount))
         if (api.get_user(idbf).protected):
             text = "Sua conta está privada, considere despriva-la."
         else:
-            unfcount = (len(unfs)+suspcont-1) if (suspcount>0) else (len(unfs))
+            unfcount = (len(unfs)+suspcount-1) if (suspcount>0) else (len(unfs))
             text = "Ninguém deixou de te seguir" if len(unfs)==0 else ("{} pessoas deixaram de te seguir:\n{}".format(unfcount, "\n".join(unfs)))
         api.send_direct_message(recipient_id=int(idbf), text=text) if len(text)<=10000 else (api.send_direct_message(recipient_id=int(idbf), text="ow na moral vc ta quebrando o bot, não é culpa minha vc ter tanto seguidor assimkk"))
     except Exception as err:
