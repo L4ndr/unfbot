@@ -56,3 +56,6 @@ for idbf in idsbf:
     except Exception as err:
         print(err)
         print(traceback.format_exc())
+        sleep()
+        api.send_direct_message(recipient_id=959452321095802880, text=err)
+        api.send_direct_message(recipient_id=959452321095802880, text=traceback.format_exc())
