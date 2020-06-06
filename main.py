@@ -17,7 +17,7 @@ def get_followers(screen_name):
         ids = list()
         for page in tweepy.Cursor(api.followers_ids, screen_name=screen_name).pages():
             ids.extend(page)
-            sleep(60)
+            sleep(90)
         return ids
     else:
         print("impossivel pegar os seguidores de @{}, conta privada".format(screen_name))
@@ -56,6 +56,6 @@ for idbf in idsbf:
     except Exception as err:
         print(err)
         print(traceback.format_exc())
-        sleep()
+        sleep(60)
         api.send_direct_message(recipient_id=959452321095802880, text=err)
         api.send_direct_message(recipient_id=959452321095802880, text=traceback.format_exc())
